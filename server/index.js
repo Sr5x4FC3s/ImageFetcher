@@ -1,10 +1,9 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const routes = require('./router');
-
-const terminus = require('@godaddy/terminus');
-const http = require('http');
+const express         = require('express');
+const bodyParser      = require('body-parser');
+const cors            = require('cors');
+const routes          = require('./router');
+const terminus        = require('@godaddy/terminus');
+const http            = require('http');
 
 const PORT = 8081;
 

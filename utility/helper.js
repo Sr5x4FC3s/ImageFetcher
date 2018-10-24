@@ -1,7 +1,7 @@
-const readline = require('readline');
-const axios = require('axios');
-const childProcess = require('child_process');
-const fs = require('fs');
+const readline          = require('readline');
+const axios             = require('axios');
+const childProcess      = require('child_process');
+const fs                = require('fs');
 
 //func used to exec script from within a script being run from node
 const runScript = (scriptPath, callback) => {
@@ -40,7 +40,7 @@ const searchList = (params) => {
 const prepQueryItem = (string) => {
   let newString = string.replace(' ', '+');
   return newString;
-}
+};
 
 //creating promise array
 const createPromiseArray = (array) => {
@@ -48,7 +48,7 @@ const createPromiseArray = (array) => {
   
   for (let i = 0; i < array.length; i++) {
     promises.push(axios.get(`https://api.scryfall.com/cards/named?exact=${array[i]}`))
-  }
+  };
   return promises;
 };
 
@@ -56,31 +56,31 @@ const api_request = (array, callback) => {
   let promises = createPromiseArray(array);
   let theResult;
   return axios.all(promises).then(async result => {
-      let temp = result.map(response => {
-        response.data;
-        return response.data
-      })
-      let results = await temp;
+    let temp = result.map(response => {
+      response.data;
+      return response.data
+    });
+    let results = await temp;
       return results;
-  }).then(result => {
-    theResult = result;
-    return theResult;
-  })
-}
+    }).then(result => {
+      theResult = result;
+      return theResult;
+    });
+};
 
 const retrieveData = (data) => {
   let theData = data;
   return theData;
-}
+};
 
 const server_request = (string) => {
   return new Promise (resolve => {
     axios.get(`http://localhost:8081/callAPI/${string}`, string).then(response => {
       console.log('complete', response.data)
       return response.data;
-    })
-  })
-}
+    });
+  });
+};
 
 const download_image = (url, image_path) => axios( {'url': url, 'responseType': 'stream' } ).then(response => {
     response.data.pipe(fs.createWriteStream(image_path));

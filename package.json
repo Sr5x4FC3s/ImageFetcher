@@ -1,5 +1,5 @@
 {
-  "name": "imageFetchShell",
+  "name": "imageFetcher",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

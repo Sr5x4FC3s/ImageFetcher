@@ -1,15 +1,15 @@
-const readline = require('readline');
-const axios = require('axios');
-const childProcess = require('child_process');
-const utility = require('./utility/helper.js');
-const execSync = childProcess.execSync;
+const readline          = require('readline');
+const axios             = require('axios');
+const childProcess      = require('child_process');
+const utility           = require('./utility/helper.js');
+const execSync          = childProcess.execSync;
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
 
-rl.question('Enter cards you want searched; enter the exact name as it appears on the card for best results. Separate entries with a colon. ie: ":"', async (answer) => {
+rl.question('Enter cards you want searched; enter the exact name as it appears on the card for best results. Separate entries with a colon. ie: ":"...', async (answer) => {
   console.log(`Your entry was: ${answer}`);
   let searchValues = answer;
   let connection = utility.startServer();
