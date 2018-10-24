@@ -1,0 +1,20 @@
+{
+  "name": "imageFetchShell",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "node server/index.js",
+    "execute": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@godaddy/terminus": "^4.1.0",
+    "axios": "^0.18.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "description": "Simple CLI Application used to retrieve Magic the Gathering card images."
+}
