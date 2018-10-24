@@ -4,7 +4,6 @@ const cors            = require('cors');
 const routes          = require('./router');
 const terminus        = require('@godaddy/terminus');
 const http            = require('http');
-
 const PORT = 8081;
 
 const app = express();
@@ -17,7 +16,7 @@ app.use(bodyParser.json());
 
 app.use('/', routes);
 
-//create an instance of connection
+// create an instance of connection
 const server = http.createServer(app);
 
 const options = {
@@ -29,8 +28,10 @@ const options = {
 //starting the instance of the connection
 terminus.createTerminus(server, options);
 
-process.on('SIGTERM', () => {
-  server.close(() => {
+process.on('SIGTERM', (code, signal) => {
+  console.log('code', code, 'signal', signal)
+  // server.close(() => {
+    server.close(() => {
     console.log('server termination has been commited...')
     process.exit(0);
   })

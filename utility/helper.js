@@ -82,9 +82,26 @@ const server_request = (string) => {
   });
 };
 
+const streamPromise = (stream) => {
+  return new Promise((resolve, reject) => {
+    stream.on('end', () => {
+      resolve('end');
+    });
+    stream.on('finish', () => {
+      resolve({'status': true, 'error': ''});
+    });
+    stream.on('error', (error) => {
+      reject(error);
+    });
+  });
+}
+
 const download_image = (url, image_path) => axios( {'url': url, 'responseType': 'stream' } ).then(response => {
-    response.data.pipe(fs.createWriteStream(image_path));
-    return {'status': true, 'error': ''};
+    let stream = fs.createWriteStream(image_path);
+    let completed = false;
+
+    response.data.pipe(stream);
+    return streamPromise(stream);
   }).catch(error => ( {'status': false, 'error': 'Error: ' + error.message}));
 
 module.exports = {

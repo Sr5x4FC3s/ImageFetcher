@@ -10,6 +10,7 @@ routes.get('/callAPI/:params', async (req, res) => {
   let searched_data;
   let arrayofPNGImages;
   let count = 0;
+  let booleans = [];
 
   util.api_request(searchable).then(result => {
     searched_data = result;
@@ -21,12 +22,20 @@ routes.get('/callAPI/:params', async (req, res) => {
     }));
 
     arrayofPNGImages.forEach(async image => {
-      let download = await util.download_image(image.image_url, save_path + `${image.name}.png`);
-      count ++;
-      if (count === arrayofPNGImages.length) {
-        res.send(arrayofPNGImages);
-        process.kill(process.pid, 'SIGTERM');
-      };
+      let download = new Promise (async resolve => {
+        let action = await util.download_image(image.image_url, save_path + `${image.name}.png`);
+        resolve(action);
+      }).then(action => {
+        booleans.push(action.status);
+        count++;
+      }).then(() => {
+        if (count === arrayofPNGImages.length) {
+          res.send(arrayofPNGImages);
+          if (booleans.length === arrayofPNGImages.length) {
+            process.kill(process.pid, 'SIGTERM');
+          };
+        };
+      });
     });
   });
 });
