@@ -56,23 +56,26 @@ const createPromiseArray = (array) => {
 const api_request = (array, callback) => {
   let promises = createPromiseArray(array);
   let theResult;
-  return axios.all(promises).then(async result => {
-    let temp = result.map(response => {
-      response.data;
-      return response.data
-    });
-    let results = await temp;
-      return results;
-    }).then(result => {
-      theResult = result;
-      return theResult;
-    });
+  return axios.all(promises)
+    .catch(error => {
+      console.log('**********CHECK YOUR SPELLING AGAIN AND TRY AGAIN. ^C TO RESTART***********');
+    })
+    .then(async result => {
+      let temp = result.map(response => {
+        response.data;
+        return response.data
+      });
+      let results = await temp;
+        return results;
+      }).then(result => {
+        theResult = result;
+        return theResult;
+      });
 };
 
 const server_request = (string) => {
   return new Promise (resolve => {
     axios.get(`http://localhost:8081/callAPI/${string}`, string).then(response => {
-      console.log('complete', response.data)
       return response.data;
     }).then(result => {
       //after first process is completed, execute second script for resizing images
@@ -110,11 +113,6 @@ const resize_photos = (array, H, W) => {
   let files = array;
   let path_name = __dirname + '/../photos/';
   let resize_path = __dirname + '/../resized_photos/';
-  console.log(H, W)
-
-  console.log(path_name);
-  console.log(resize_path);
-  console.log(files);
 
   files.map(images => {
     sharp(path_name + images)
@@ -122,7 +120,7 @@ const resize_photos = (array, H, W) => {
     .sharpen()
     .toFile(resize_path + images) 
     .then(data => {
-      console.log('well, this is data', data);
+      console.log('New image: ', data);
     })
   });
 }

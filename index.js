@@ -9,7 +9,6 @@ const rl = readline.createInterface({
 });
 
 rl.question('Enter cards you want searched; enter the exact name as it appears on the card for best results. Separate entries with a colon. ie: ":"...', async (answer) => {
-  console.log(`Your entry was: ${answer}`);
   let searchValues = answer;
   let connection = utility.startServer();
   

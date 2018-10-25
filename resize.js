@@ -11,9 +11,7 @@ const rl = readline.createInterface({
 });
 
 rl.question('Would you like images resized? (Y/N) : ', (answer) => {
-  let yes = false;
   if (answer.toLowerCase() === 'y') {
-    yes = true;
     rl.question('What dimensions are the images being resized to? (length x width) --> (3.5" x 2.5" => 366 x 240) : ', (answer) => {
       let dimensions = answer.split('x');
       let height = parseInt(dimensions[0]);
@@ -27,7 +25,7 @@ rl.question('Would you like images resized? (Y/N) : ', (answer) => {
       util.resize_photos(fileArray, height, width);
       rl.close();
     });
-  } else if (answer.toLowerCase() === 'n') {
+  } else if (answer.toLowerCase() !== 'y') {
     rl.close();
-  }
+  } 
 });
