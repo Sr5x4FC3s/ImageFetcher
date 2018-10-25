@@ -2,6 +2,7 @@ const readline          = require('readline');
 const axios             = require('axios');
 const childProcess      = require('child_process');
 const fs                = require('fs');
+const sharp             = require('sharp');
 
 //func used to exec script from within a script being run from node
 const runScript = (scriptPath, callback) => {
@@ -68,17 +69,17 @@ const api_request = (array, callback) => {
     });
 };
 
-const retrieveData = (data) => {
-  let theData = data;
-  return theData;
-};
-
 const server_request = (string) => {
   return new Promise (resolve => {
     axios.get(`http://localhost:8081/callAPI/${string}`, string).then(response => {
       console.log('complete', response.data)
       return response.data;
-    });
+    }).then(result => {
+      //after first process is completed, execute second script for resizing images
+      runScript('./resize.js', err => {
+        if (err) throw err;
+      })
+    })
   });
 };
 
@@ -104,6 +105,28 @@ const download_image = (url, image_path) => axios( {'url': url, 'responseType': 
     return streamPromise(stream);
   }).catch(error => ( {'status': false, 'error': 'Error: ' + error.message}));
 
+//photo resizer function 
+const resize_photos = (array, H, W) => {
+  let files = array;
+  let path_name = __dirname + '/../photos/';
+  let resize_path = __dirname + '/../resized_photos/';
+  console.log(H, W)
+
+  console.log(path_name);
+  console.log(resize_path);
+  console.log(files);
+
+  files.map(images => {
+    sharp(path_name + images)
+    .resize({width: W, height: H, fit: sharp.fit.fill})
+    .sharpen()
+    .toFile(resize_path + images) 
+    .then(data => {
+      console.log('well, this is data', data);
+    })
+  });
+}
+
 module.exports = {
   runScript: runScript,
   startServer: startServer,
@@ -111,6 +134,6 @@ module.exports = {
   prepQueryItem: prepQueryItem,
   server_request: server_request,
   api_request: api_request,
-  retrieveData: retrieveData,
-  download_image: download_image
+  download_image: download_image,
+  resize_photos: resize_photos
 };

@@ -30,7 +30,6 @@ terminus.createTerminus(server, options);
 
 process.on('SIGTERM', (code, signal) => {
   console.log('code', code, 'signal', signal)
-  // server.close(() => {
     server.close(() => {
     console.log('server termination has been commited...')
     process.exit(0);

@@ -1,5 +1,8 @@
 ## photos
 /photos/
 
-##node modules
+## node modules
 node_modules/
+
+## resized photos
+/resized_photos/

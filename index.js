@@ -2,7 +2,6 @@ const readline          = require('readline');
 const axios             = require('axios');
 const childProcess      = require('child_process');
 const utility           = require('./utility/helper.js');
-const execSync          = childProcess.execSync;
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -19,4 +18,3 @@ rl.question('Enter cards you want searched; enter the exact name as it appears o
 
   rl.close();
 });
-
